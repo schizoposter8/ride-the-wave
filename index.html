@@ -47,7 +47,7 @@ body{
 .photo-bg{position:absolute; inset:0; background-size:cover; background-position:center 60%; opacity:0; transition:opacity 1s}
 body.photo .photo-bg{opacity:1}
 .photo-bg::after{content:""; position:absolute; inset:0;
-  background:linear-gradient(180deg,rgba(4,30,45,.38) 0%,rgba(4,30,45,.08) 40%,rgba(4,30,45,.28) 100%)}
+  background:linear-gradient(180deg,rgba(4,30,45,.38) 0%,rgba(4,30,45,.08) 40%,rgba(4,30,45,.1) 100%)}
 body.photo .sun, body.photo .gull, body.photo .pipeline{display:none}
 body.photo h1.title, body.photo .byline strong{color:#fff}
 body.photo h1.title em{color:#9eeaf2}
@@ -110,9 +110,11 @@ body.admin .fab{display:inline-flex}
 
 /* ---------- footer ---------- */
 footer{position:relative; z-index:1; margin-top:30px; padding:70px 0 60px;
-  background:linear-gradient(180deg,rgba(5,30,46,.0),rgba(5,30,46,.88) 18%,rgba(4,24,38,.95))}
-footer h3{font-family:'JetBrains Mono',monospace; font-weight:500; font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--sand); margin:0 0 12px}
-footer p{font-size:13px; line-height:1.65; color:var(--mist); margin:0 0 10px}
+  background:linear-gradient(180deg,rgba(5,30,46,0),rgba(5,30,46,.42) 20%,rgba(4,24,38,.55))}
+footer h3{font-family:'JetBrains Mono',monospace; font-weight:500; font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:#fbefcf; margin:0 0 12px}
+footer p{font-size:13px; line-height:1.65; color:#e6f0f4; margin:0 0 10px; text-shadow:0 1px 3px rgba(0,15,25,.85),0 0 12px rgba(0,15,25,.5)}
+footer h3,.foot-bottom{text-shadow:0 1px 3px rgba(0,15,25,.85)}
+.foot-bottom{color:#cfe0e8 !important}
 .foot-bottom{display:flex; justify-content:space-between; align-items:center; margin-top:24px; font-size:12px; color:var(--dim)}
 .foot-bottom button{background:none; border:0; color:var(--dim); cursor:pointer; font:inherit; padding:4px}
 .foot-bottom button:hover{color:var(--glow)}
