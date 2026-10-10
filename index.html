@@ -15,7 +15,7 @@
 :root{
   --abyss:#040b14; --deep:#071a2b; --navy:#0b2a42; --tide:#12405e;
   --foam:#e8f1f5; --mist:#9fb6c4; --dim:#6c8798; --line:rgba(160,200,225,.14);
-  --glow:#7fd3e6; --sand:#d9c7a3; --card:rgba(9,28,46,.62);
+  --glow:#7fd3e6; --sand:#d9c7a3; --card:rgba(7,34,52,.84);
   --danger:#e88a8a;
 }
 *{box-sizing:border-box}
@@ -23,49 +23,53 @@ html{scroll-behavior:smooth}
 body{
   margin:0; min-height:100vh; color:var(--foam);
   font-family:Manrope,system-ui,sans-serif; font-size:17px; line-height:1.7;
-  background:var(--abyss);
+  background:#1f8ea6;
   overflow-x:hidden;
 }
 /* ---------- sky & sea ---------- */
 .sky{position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden;
-  background:linear-gradient(180deg,#02060c 0%,var(--abyss) 20%,var(--deep) 55%,var(--navy) 85%,var(--tide) 100%)}
-.moon{position:absolute; top:7vh; right:12vw; width:84px; height:84px; border-radius:50%;
-  background:radial-gradient(circle at 38% 36%,#f4f1e6,#cfd6d8 60%,#a9b4b8);
-  box-shadow:0 0 60px 18px rgba(200,225,235,.18),0 0 180px 60px rgba(127,211,230,.08); opacity:.9}
-.stars{position:absolute; inset:0 0 45% 0;
-  background-image:
-    radial-gradient(1px 1px at 12% 18%,#fff8,transparent),radial-gradient(1px 1px at 28% 8%,#fff6,transparent),
-    radial-gradient(1px 1px at 44% 22%,#fff5,transparent),radial-gradient(1.5px 1.5px at 63% 12%,#fff7,transparent),
-    radial-gradient(1px 1px at 78% 30%,#fff5,transparent),radial-gradient(1px 1px at 90% 6%,#fff6,transparent),
-    radial-gradient(1px 1px at 6% 40%,#fff4,transparent),radial-gradient(1px 1px at 52% 36%,#fff4,transparent),
-    radial-gradient(1.5px 1.5px at 35% 44%,#fff5,transparent),radial-gradient(1px 1px at 84% 48%,#fff4,transparent);
-  animation:twinkle 6s ease-in-out infinite alternate}
-@keyframes twinkle{from{opacity:.55}to{opacity:1}}
-.moonpath{position:absolute; top:0; right:calc(12vw + 22px); width:40px; height:100%;
-  background:linear-gradient(180deg,transparent 55%,rgba(200,230,240,.07) 75%,rgba(200,230,240,.12));
-  filter:blur(8px)}
-.sea{position:absolute; left:0; right:0; bottom:0; height:38vh; min-height:220px}
-.wave{position:absolute; left:0; bottom:0; width:200%; height:100%; background-repeat:repeat-x; background-position:0 bottom; background-size:50% 100%}
-.w1{opacity:.35; animation:drift 38s linear infinite; bottom:22px}
-.w2{opacity:.5; animation:drift 26s linear infinite reverse; bottom:10px}
-.w3{opacity:.85; animation:drift 18s linear infinite}
-@keyframes drift{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@media (prefers-reduced-motion:reduce){.wave,.stars{animation:none}}
+  background:linear-gradient(180deg,#e3f6f7 0%,#c4ebef 35%,#9fdbe3 70%,#7fcbd8 100%)}
+.sun{position:absolute; top:8vh; left:9vw; width:90px; height:90px; border-radius:50%;
+  background:radial-gradient(circle,#fffbe8 0%,#fff3c4 55%,#ffe9a8 100%);
+  box-shadow:0 0 80px 30px rgba(255,240,190,.55),0 0 220px 90px rgba(255,250,225,.35)}
+.gull{position:absolute; width:26px; height:10px; animation:glide 14s ease-in-out infinite alternate}
+@keyframes glide{from{transform:translate(0,0)}to{transform:translate(40px,-14px)}}
+.pipeline{position:absolute; right:0; bottom:0; width:min(100vw, 1100px, calc(70vh * 1.6667)); height:auto; overflow:visible}
+.spray{animation:spray 3.2s ease-in-out infinite alternate}
+.spray2{animation:spray 2.4s ease-in-out infinite alternate-reverse}
+@keyframes spray{from{opacity:.25; transform:translateY(4px)}to{opacity:.9; transform:translateY(-6px)}}
+.streaks path{stroke-dasharray:60 40; animation:flow 5s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-200}}
+@media (prefers-reduced-motion:reduce){.gull,.spray,.spray2,.streaks path{animation:none}}
+
+
+/* ---------- photo mode: add beach.jpg to the repo and it replaces the illustration ---------- */
+.photo-bg{position:absolute; inset:0; background-size:cover; background-position:center 60%; opacity:0; transition:opacity 1s}
+body.photo .photo-bg{opacity:1}
+.photo-bg::after{content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg,rgba(4,30,45,.38) 0%,rgba(4,30,45,.08) 40%,rgba(4,30,45,.28) 100%)}
+body.photo .sun, body.photo .gull, body.photo .pipeline{display:none}
+body.photo h1.title, body.photo .byline strong{color:#fff}
+body.photo h1.title em{color:#9eeaf2}
+body.photo .eyebrow{color:#cdf4f7}
+body.photo .byline{color:#e3f3f6}
+body.photo .byline .dot{background:#cdf4f7}
+body.photo header.hero{text-shadow:0 2px 18px rgba(0,20,30,.45)}
 
 /* ---------- layout ---------- */
 .wrap{position:relative; z-index:1; max-width:760px; margin:0 auto; padding:0 20px}
 header.hero{padding:13vh 0 7vh; text-align:left}
-.eyebrow{font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:var(--glow); opacity:.85}
-h1.title{font-family:Fraunces,serif; font-weight:400; font-size:clamp(52px,11vw,96px); line-height:.95; margin:.25em 0 .2em; letter-spacing:-.02em}
-h1.title em{font-style:italic; font-weight:300; color:var(--glow)}
-.byline{display:flex; gap:14px; align-items:center; flex-wrap:wrap; color:var(--mist); font-size:15px}
-.byline .dot{width:4px; height:4px; border-radius:50%; background:var(--dim)}
-.byline strong{color:var(--foam); font-weight:600}
+.eyebrow{font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#0e6f86; font-weight:500}
+h1.title{font-family:Fraunces,serif; font-weight:400; font-size:clamp(52px,11vw,96px); line-height:.95; margin:.25em 0 .2em; letter-spacing:-.02em; color:#08263a}
+h1.title em{font-style:italic; font-weight:300; color:#0f86a1}
+.byline{display:flex; gap:14px; align-items:center; flex-wrap:wrap; color:#2a5668; font-size:15px}
+.byline .dot{width:4px; height:4px; border-radius:50%; background:#5c8a9a}
+.byline strong{color:#08263a; font-weight:700}
 
 /* ---------- posts ---------- */
 .feed{display:flex; flex-direction:column; gap:28px; padding-bottom:40px}
-.post{background:var(--card); border:1px solid var(--line); border-radius:18px; padding:30px 32px 24px;
-  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); box-shadow:0 20px 50px -30px #000;
+.post{background:var(--card); border:1px solid rgba(255,255,255,.12); border-radius:18px; padding:30px 32px 24px;
+  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); box-shadow:0 24px 50px -28px rgba(4,30,45,.7);
   scroll-margin-top:24px}
 .post-meta{display:flex; justify-content:space-between; align-items:center; gap:12px;
   font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--dim); letter-spacing:.06em; text-transform:uppercase}
@@ -90,7 +94,7 @@ h1.title em{font-style:italic; font-weight:300; color:var(--glow)}
 .post-disc a{color:var(--mist)}
 .admin-row{display:none; gap:8px; margin-top:14px}
 body.admin .admin-row{display:flex}
-.empty{text-align:center; color:var(--mist); padding:60px 20px; border:1px dashed var(--line); border-radius:18px}
+.empty{text-align:center; color:var(--mist); background:var(--card); padding:60px 20px; border:1px dashed var(--line); border-radius:18px}
 .loading{color:var(--dim); text-align:center; padding:40px; font-family:'JetBrains Mono',monospace; font-size:13px}
 
 /* ---------- buttons ---------- */
@@ -105,8 +109,8 @@ body.admin .admin-row{display:flex}
 body.admin .fab{display:inline-flex}
 
 /* ---------- footer ---------- */
-footer{position:relative; z-index:1; margin-top:30px; padding:40px 0 60px; border-top:1px solid var(--line);
-  background:linear-gradient(180deg,transparent,rgba(2,8,14,.75) 30%)}
+footer{position:relative; z-index:1; margin-top:30px; padding:70px 0 60px;
+  background:linear-gradient(180deg,rgba(5,30,46,.0),rgba(5,30,46,.88) 18%,rgba(4,24,38,.95))}
 footer h3{font-family:'JetBrains Mono',monospace; font-weight:500; font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--sand); margin:0 0 12px}
 footer p{font-size:13px; line-height:1.65; color:var(--mist); margin:0 0 10px}
 .foot-bottom{display:flex; justify-content:space-between; align-items:center; margin-top:24px; font-size:12px; color:var(--dim)}
@@ -140,8 +144,9 @@ textarea.in{min-height:240px; resize:vertical; line-height:1.6}
 @media (max-width:600px){
   body{font-size:16px}
   .post{padding:22px 18px 18px; border-radius:14px}
-  .moon{width:58px; height:58px; right:8vw}
-  .moonpath{right:calc(8vw + 14px)}
+  .sun{width:60px; height:60px; left:auto; right:8vw; top:5vh}
+  .gull{display:none}
+  .photo-bg{background-position:76% 55%}
   header.hero{padding:10vh 0 5vh}
   .panel{padding:20px}
   .byline .dot{display:none}
@@ -152,14 +157,37 @@ textarea.in{min-height:240px; resize:vertical; line-height:1.6}
 <body>
 
 <div class="sky" aria-hidden="true">
-  <div class="stars"></div>
-  <div class="moon"></div>
-  <div class="moonpath"></div>
-  <div class="sea">
-    <div class="wave w1" style="background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 220' preserveAspectRatio='none'%3E%3Cpath fill='%2312405e' d='M0 120 C 180 70 360 70 540 110 S 900 160 1080 110 S 1320 70 1440 120 V220 H0Z'/%3E%3C/svg%3E&quot;)"></div>
-    <div class="wave w2" style="background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 220' preserveAspectRatio='none'%3E%3Cpath fill='%230b3350' d='M0 150 C 240 110 480 190 720 150 S 1200 110 1440 150 V220 H0Z'/%3E%3Cpath fill='none' stroke='%237fd3e6' stroke-opacity='.25' stroke-width='2' d='M0 150 C 240 110 480 190 720 150 S 1200 110 1440 150'/%3E%3C/svg%3E&quot;)"></div>
-    <div class="wave w3" style="background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 220' preserveAspectRatio='none'%3E%3Cpath fill='%23061624' d='M0 180 C 200 150 400 205 720 180 S 1240 150 1440 180 V220 H0Z'/%3E%3Cpath fill='none' stroke='%23e8f1f5' stroke-opacity='.18' stroke-width='1.5' d='M0 180 C 200 150 400 205 720 180 S 1240 150 1440 180'/%3E%3C/svg%3E&quot;)"></div>
-  </div>
+  <div class="photo-bg"></div>
+  <div class="sun"></div>
+  <svg class="gull" style="top:6vh;left:64vw" viewBox="0 0 26 10"><path d="M1 8 Q7 1 13 7 Q19 1 25 8" fill="none" stroke="#2a5668" stroke-width="1.6" stroke-linecap="round"/></svg>
+  <svg class="gull" style="top:10vh;left:69vw;width:18px;animation-duration:11s" viewBox="0 0 26 10"><path d="M1 8 Q7 1 13 7 Q19 1 25 8" fill="none" stroke="#2a5668" stroke-width="1.8" stroke-linecap="round"/></svg>
+  <svg class="pipeline" viewBox="0 0 1000 600" preserveAspectRatio="xMaxYMax meet">
+    <defs>
+      <linearGradient id="pfFace" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5fd0d6"/><stop offset=".5" stop-color="#2aa3b6"/><stop offset="1" stop-color="#16708c"/></linearGradient>
+      <linearGradient id="pfLip" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8be6e4"/><stop offset="1" stop-color="#3cb8c6"/></linearGradient>
+      <radialGradient id="pfTube" cx=".62" cy=".55" r=".6"><stop offset="0" stop-color="#0b5068"/><stop offset=".7" stop-color="#136f8c"/><stop offset="1" stop-color="#1f8ea6"/></radialGradient>
+      <linearGradient id="pfSea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3fb0c0"/><stop offset="1" stop-color="#1f8ea6"/></linearGradient>
+    </defs>
+    <rect x="-4000" y="470" width="5000" height="600" fill="url(#pfSea)"/>
+    <path d="M-4000 470 H1000" stroke="#e9fbfb" stroke-opacity=".55" stroke-width="2"/>
+    <g fill="none" stroke="#e9fbfb" stroke-opacity=".35" stroke-width="2" stroke-linecap="round">
+      <path d="M-900 505 q40 -8 80 0 t80 0"/><path d="M-400 530 q40 -8 80 0 t80 0"/><path d="M60 512 q40 -8 80 0 t80 0"/><path d="M-1500 540 q40 -8 80 0 t80 0"/><path d="M-200 495 q30 -6 60 0 t60 0"/>
+    </g>
+    <path fill="url(#pfFace)" d="M180 600 C 260 560 340 540 400 500 C 450 465 470 400 500 330 C 545 235 620 175 730 150 C 840 128 940 150 1000 175 L1000 600 Z"/>
+    <path fill="url(#pfTube)" d="M400 470 C 420 400 450 320 520 255 C 590 195 680 175 760 178 C 700 205 640 250 600 310 C 560 370 545 430 540 500 C 500 495 450 490 400 470 Z"/>
+    <path fill="url(#pfLip)" d="M1000 175 C 930 140 830 118 730 128 C 600 140 500 200 445 280 C 405 340 390 400 402 455 C 412 410 432 350 480 290 C 545 215 640 178 760 178 C 850 178 930 195 1000 215 Z"/>
+    <path fill="none" stroke="#f6fcfc" stroke-width="7" stroke-linecap="round" d="M1000 175 C 930 140 830 118 730 128 C 600 140 500 200 445 280 C 405 340 390 400 402 455"/>
+    <g class="streaks" fill="none" stroke="#c6f2f2" stroke-opacity=".4" stroke-width="3" stroke-linecap="round">
+      <path d="M560 520 C 600 470 640 420 700 380"/><path d="M640 560 C 700 500 760 450 840 420"/><path d="M760 580 C 820 530 880 500 960 480"/><path d="M880 400 C 920 360 960 330 1000 320"/>
+    </g>
+    <g fill="#f6fcfc">
+      <circle cx="402" cy="472" r="26"/><circle cx="440" cy="480" r="20"/><circle cx="368" cy="482" r="20"/><circle cx="470" cy="490" r="14"/>
+      <circle cx="338" cy="490" r="14"/><circle cx="312" cy="496" r="9" opacity=".85"/><circle cx="420" cy="448" r="12"/><circle cx="388" cy="452" r="9"/>
+      <ellipse cx="400" cy="496" rx="110" ry="12" opacity=".75"/>
+    </g>
+    <g class="spray" fill="#fff"><circle cx="440" cy="426" r="5"/><circle cx="362" cy="438" r="4"/><circle cx="455" cy="410" r="3"/><circle cx="330" cy="458" r="3.5"/></g>
+    <g class="spray2" fill="#fff"><circle cx="760" cy="110" r="5"/><circle cx="800" cy="100" r="3.5"/><circle cx="700" cy="116" r="4"/><circle cx="860" cy="108" r="4"/><circle cx="650" cy="130" r="3"/><circle cx="920" cy="124" r="3"/></g>
+  </svg>
 </div>
 
 <div class="wrap">
@@ -400,6 +428,9 @@ $('#feed').addEventListener('click',async e=>{
   }
 });
 $('#lightbox').onclick=closeModals;
+
+/* photo background: if beach.jpg exists in the repo, use it */
+(function(){ const im=new Image(); im.onload=()=>{ document.querySelector('.photo-bg').style.backgroundImage='url(beach.jpg)'; document.body.classList.add('photo'); }; im.src='beach.jpg'; })();
 
 load();
 </script>
