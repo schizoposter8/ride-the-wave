@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ride the Wave — Market Thoughts</title>
+<meta name="description" content="Ride the Wave — personal market thoughts by Brock Hall, CFP®.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/marked@15/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
+<style>
+:root{
+  --abyss:#040b14; --deep:#071a2b; --navy:#0b2a42; --tide:#12405e;
+  --foam:#e8f1f5; --mist:#9fb6c4; --dim:#6c8798; --line:rgba(160,200,225,.14);
+  --glow:#7fd3e6; --sand:#d9c7a3; --card:rgba(9,28,46,.62);
+  --danger:#e88a8a;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; min-height:100vh; color:var(--foam);
+  font-family:Manrope,system-ui,sans-serif; font-size:17px; line-height:1.7;
+  background:var(--abyss);
+  overflow-x:hidden;
+}
+/* ---------- sky & sea ---------- */
+.sky{position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden;
+  background:linear-gradient(180deg,#02060c 0%,var(--abyss) 20%,var(--deep) 55%,var(--navy) 85%,var(--tide) 100%)}
+.moon{position:absolute; top:7vh; right:12vw; width:84px; height:84px; border-radius:50%;
+  background:radial-gradient(circle at 38% 36%,#f4f1e6,#cfd6d8 60%,#a9b4b8);
+  box-shadow:0 0 60px 18px rgba(200,225,235,.18),0 0 180px 60px rgba(127,211,230,.08); opacity:.9}
+.stars{position:absolute; inset:0 0 45% 0;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%,#fff8,transparent),radial-gradient(1px 1px at 28% 8%,#fff6,transparent),
+    radial-gradient(1px 1px at 44% 22%,#fff5,transparent),radial-gradient(1.5px 1.5px at 63% 12%,#fff7,transparent),
+    radial-gradient(1px 1px at 78% 30%,#fff5,transparent),radial-gradient(1px 1px at 90% 6%,#fff6,transparent),
+    radial-gradient(1px 1px at 6% 40%,#fff4,transparent),radial-gradient(1px 1px at 52% 36%,#fff4,transparent),
+    radial-gradient(1.5px 1.5px at 35% 44%,#fff5,transparent),radial-gradient(1px 1px at 84% 48%,#fff4,transparent);
+  animation:twinkle 6s ease-in-out infinite alternate}
+@keyframes twinkle{from{opacity:.55}to{opacity:1}}
+.moonpath{position:absolute; top:0; right:calc(12vw + 22px); width:40px; height:100%;
+  background:linear-gradient(180deg,transparent 55%,rgba(200,230,240,.07) 75%,rgba(200,230,240,.12));
+  filter:blur(8px)}
+.sea{position:absolute; left:0; right:0; bottom:0; height:38vh; min-height:220px}
+.wave{position:absolute; left:0; bottom:0; width:200%; height:100%; background-repeat:repeat-x; background-position:0 bottom; background-size:50% 100%}
+.w1{opacity:.35; animation:drift 38s linear infinite; bottom:22px}
+.w2{opacity:.5; animation:drift 26s linear infinite reverse; bottom:10px}
+.w3{opacity:.85; animation:drift 18s linear infinite}
+@keyframes drift{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.wave,.stars{animation:none}}
+
+/* ---------- layout ---------- */
+.wrap{position:relative; z-index:1; max-width:760px; margin:0 auto; padding:0 20px}
+header.hero{padding:13vh 0 7vh; text-align:left}
+.eyebrow{font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:var(--glow); opacity:.85}
+h1.title{font-family:Fraunces,serif; font-weight:400; font-size:clamp(52px,11vw,96px); line-height:.95; margin:.25em 0 .2em; letter-spacing:-.02em}
+h1.title em{font-style:italic; font-weight:300; color:var(--glow)}
+.byline{display:flex; gap:14px; align-items:center; flex-wrap:wrap; color:var(--mist); font-size:15px}
+.byline .dot{width:4px; height:4px; border-radius:50%; background:var(--dim)}
+.byline strong{color:var(--foam); font-weight:600}
+
+/* ---------- posts ---------- */
+.feed{display:flex; flex-direction:column; gap:28px; padding-bottom:40px}
+.post{background:var(--card); border:1px solid var(--line); border-radius:18px; padding:30px 32px 24px;
+  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); box-shadow:0 20px 50px -30px #000;
+  scroll-margin-top:24px}
+.post-meta{display:flex; justify-content:space-between; align-items:center; gap:12px;
+  font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--dim); letter-spacing:.06em; text-transform:uppercase}
+.post-meta a{color:var(--dim); text-decoration:none; white-space:nowrap}
+.post-meta a:hover{color:var(--glow)}
+.post h2{font-family:Fraunces,serif; font-weight:500; font-size:clamp(26px,5vw,34px); line-height:1.15; margin:.35em 0 .4em; letter-spacing:-.01em}
+.post-body{color:#d6e3ea; overflow-wrap:anywhere}
+.post-body p{margin:0 0 1em}
+.post-body a{color:var(--glow)}
+.post-body blockquote{margin:1em 0; padding:.2em 1em; border-left:3px solid var(--glow); color:var(--mist)}
+.post-body code{font-family:'JetBrains Mono',monospace; font-size:.88em; background:rgba(127,211,230,.1); padding:.1em .35em; border-radius:4px}
+.post-body h3,.post-body h4{font-family:Fraunces,serif; font-weight:500}
+.post-body img{max-width:100%; border-radius:10px}
+.post-body table{border-collapse:collapse; width:100%; font-size:15px}
+.post-body th,.post-body td{border:1px solid var(--line); padding:6px 10px; text-align:left}
+.gallery{display:grid; gap:10px; margin:6px 0 16px; grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.gallery img{width:100%; border-radius:10px; border:1px solid var(--line); cursor:zoom-in; display:block; background:#0003}
+.gallery.single{grid-template-columns:1fr}
+.positions{margin:18px 0 0; padding:12px 16px; border-radius:10px; background:rgba(217,199,163,.07); border:1px solid rgba(217,199,163,.22); font-size:15px}
+.positions .lbl{font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--sand); display:block; margin-bottom:2px}
+.post-disc{margin-top:18px; padding-top:14px; border-top:1px dashed var(--line); font-size:12.5px; line-height:1.55; color:var(--dim); font-style:italic}
+.post-disc a{color:var(--mist)}
+.admin-row{display:none; gap:8px; margin-top:14px}
+body.admin .admin-row{display:flex}
+.empty{text-align:center; color:var(--mist); padding:60px 20px; border:1px dashed var(--line); border-radius:18px}
+.loading{color:var(--dim); text-align:center; padding:40px; font-family:'JetBrains Mono',monospace; font-size:13px}
+
+/* ---------- buttons ---------- */
+.btn{font:600 14px Manrope,sans-serif; border-radius:999px; padding:9px 18px; border:1px solid var(--line); background:rgba(255,255,255,.04); color:var(--foam); cursor:pointer}
+.btn:hover{border-color:var(--glow)}
+.btn.primary{background:var(--glow); color:#03202b; border-color:var(--glow)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.danger{color:var(--danger)}
+.btn.small{padding:5px 12px; font-size:13px}
+.btn:disabled{opacity:.5; cursor:wait}
+.fab{position:fixed; right:22px; bottom:22px; z-index:5; display:none; box-shadow:0 10px 30px -10px #000}
+body.admin .fab{display:inline-flex}
+
+/* ---------- footer ---------- */
+footer{position:relative; z-index:1; margin-top:30px; padding:40px 0 60px; border-top:1px solid var(--line);
+  background:linear-gradient(180deg,transparent,rgba(2,8,14,.75) 30%)}
+footer h3{font-family:'JetBrains Mono',monospace; font-weight:500; font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--sand); margin:0 0 12px}
+footer p{font-size:13px; line-height:1.65; color:var(--mist); margin:0 0 10px}
+.foot-bottom{display:flex; justify-content:space-between; align-items:center; margin-top:24px; font-size:12px; color:var(--dim)}
+.foot-bottom button{background:none; border:0; color:var(--dim); cursor:pointer; font:inherit; padding:4px}
+.foot-bottom button:hover{color:var(--glow)}
+
+/* ---------- modals ---------- */
+.modal{position:fixed; inset:0; z-index:20; display:none; align-items:flex-start; justify-content:center; padding:5vh 16px; background:rgba(1,6,12,.78); backdrop-filter:blur(6px); overflow-y:auto}
+.modal.open{display:flex}
+.panel{width:100%; max-width:680px; background:#0a2034; border:1px solid var(--line); border-radius:18px; padding:26px}
+.panel h3{font-family:Fraunces,serif; font-weight:500; font-size:26px; margin:0 0 16px}
+label.f{display:block; font-size:13px; font-weight:600; color:var(--mist); margin:14px 0 6px}
+label.f span{font-weight:400; color:var(--dim)}
+input.in,textarea.in{width:100%; background:rgba(2,10,18,.6); color:var(--foam); border:1px solid var(--line); border-radius:10px; padding:11px 13px; font:16px Manrope,sans-serif}
+input.in:focus,textarea.in:focus{outline:none; border-color:var(--glow)}
+textarea.in{min-height:240px; resize:vertical; line-height:1.6}
+.drop{border:1.5px dashed var(--line); border-radius:12px; padding:16px; text-align:center; color:var(--dim); font-size:14px; cursor:pointer}
+.drop.over{border-color:var(--glow); color:var(--glow)}
+.thumbs{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px}
+.thumb{position:relative; width:96px; height:72px; border-radius:8px; overflow:hidden; border:1px solid var(--line)}
+.thumb img{width:100%; height:100%; object-fit:cover}
+.thumb button{position:absolute; top:3px; right:3px; width:22px; height:22px; border-radius:50%; border:0; background:#000b; color:#fff; cursor:pointer; line-height:22px; padding:0}
+.actions{display:flex; justify-content:space-between; align-items:center; gap:10px; margin-top:22px; flex-wrap:wrap}
+.msg{font-size:13px; color:var(--danger); min-height:1em}
+.hint{font-size:12px; color:var(--dim)}
+.lightbox{align-items:center; cursor:zoom-out}
+.lightbox img{max-width:96vw; max-height:90vh; border-radius:10px}
+.toast{position:fixed; left:50%; bottom:28px; transform:translateX(-50%) translateY(20px); background:var(--glow); color:#03202b; font-weight:600; font-size:14px; padding:10px 18px; border-radius:999px; opacity:0; transition:.25s; z-index:30; pointer-events:none}
+.toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+
+@media (max-width:600px){
+  body{font-size:16px}
+  .post{padding:22px 18px 18px; border-radius:14px}
+  .moon{width:58px; height:58px; right:8vw}
+  .moonpath{right:calc(8vw + 14px)}
+  header.hero{padding:10vh 0 5vh}
+  .panel{padding:20px}
+  .byline .dot{display:none}
+  .byline{flex-direction:column; align-items:flex-start; gap:2px}
+}
+</style>
+</head>
+<body>
+
+<div class="sky" aria-hidden="true">
+  <div class="stars"></div>
+  <div class="moon"></div>
+  <div class="moonpath"></div>
+  <div class="sea">
+    <div class="wave w1" style="background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 220' preserveAspectRatio='none'%3E%3Cpath fill='%2312405e' d='M0 120 C 180 70 360 70 540 110 S 900 160 1080 110 S 1320 70 1440 120 V220 H0Z'/%3E%3C/svg%3E&quot;)"></div>
+    <div class="wave w2" style="background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 220' preserveAspectRatio='none'%3E%3Cpath fill='%230b3350' d='M0 150 C 240 110 480 190 720 150 S 1200 110 1440 150 V220 H0Z'/%3E%3Cpath fill='none' stroke='%237fd3e6' stroke-opacity='.25' stroke-width='2' d='M0 150 C 240 110 480 190 720 150 S 1200 110 1440 150'/%3E%3C/svg%3E&quot;)"></div>
+    <div class="wave w3" style="background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 220' preserveAspectRatio='none'%3E%3Cpath fill='%23061624' d='M0 180 C 200 150 400 205 720 180 S 1240 150 1440 180 V220 H0Z'/%3E%3Cpath fill='none' stroke='%23e8f1f5' stroke-opacity='.18' stroke-width='1.5' d='M0 180 C 200 150 400 205 720 180 S 1240 150 1440 180'/%3E%3C/svg%3E&quot;)"></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">Market Thoughts</div>
+    <h1 class="title">Ride the <em>Wave</em></h1>
+    <div class="byline"><strong>Brock Hall, CFP®</strong><span class="dot"></span><span>Personal notes on markets, macro &amp; crypto</span></div>
+  </header>
+
+  <main id="feed" class="feed"><div class="loading">Checking the tide…</div></main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <h3>Important Disclosures</h3>
+    <p>Brock Hall is a CERTIFIED FINANCIAL PLANNER™ professional. Everything published on this website reflects his own personal opinions only. These views do not represent the views, opinions, or positions of his employer or any firm or organization with which he is or has been affiliated, and have not been reviewed or endorsed by any of them.</p>
+    <p>All content is provided for general informational and educational purposes only. Nothing on this site is investment, financial, tax, legal, or accounting advice, nor is it a recommendation, offer, or solicitation to buy, sell, or hold any security, digital asset, or other investment, or to adopt any investment strategy. Content does not consider your individual objectives, financial situation, or needs. Reading this site does not create an advisor-client or any other professional relationship.</p>
+    <p>Investing involves risk, including the possible loss of principal. Past performance does not guarantee future results. Cryptocurrencies and other digital assets are highly speculative and volatile and may lose all value. Any forecasts, projections, or opinions are inherently uncertain, may prove incorrect, and may change without notice. Information is obtained from sources believed to be reliable but its accuracy and completeness are not guaranteed.</p>
+    <p>The author may hold, buy, or sell positions in any securities or assets discussed, before or after publication, without notice. Positions noted in a post reflect holdings at the time of writing only. Always do your own research and consult a qualified professional about your specific situation before making any financial decision.</p>
+    <div class="foot-bottom">
+      <span>© <span id="yr"></span> Brock Hall · Ride the Wave</span>
+      <button id="adminLink" title="Author login" aria-label="Author login">🌊</button>
+    </div>
+  </div>
+</footer>
+
+<button class="btn primary fab" id="newBtn">＋ New post</button>
+
+<!-- login -->
+<div class="modal" id="loginModal">
+  <div class="panel" style="max-width:400px">
+    <h3>Author login</h3>
+    <label class="f" for="pw">Password</label>
+    <input class="in" id="pw" type="password" autocomplete="current-password">
+    <div class="actions">
+      <span class="msg" id="loginMsg"></span>
+      <div style="display:flex;gap:8px">
+        <button class="btn" data-close>Cancel</button>
+        <button class="btn primary" id="loginBtn">Log in</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- editor -->
+<div class="modal" id="editModal">
+  <div class="panel">
+    <h3 id="editHeading">New post</h3>
+    <label class="f" for="eTitle">Title</label>
+    <input class="in" id="eTitle" maxlength="200" placeholder="e.g. Bonds are blinking yellow">
+    <label class="f" for="eContent">Thoughts <span>— blank line = new paragraph. **bold**, *italic*, - bullets, > quote</span></label>
+    <textarea class="in" id="eContent" placeholder="What are you seeing in the market?"></textarea>
+    <label class="f">Images / charts <span>— click, drag in, or paste a screenshot (up to 6)</span></label>
+    <div class="drop" id="drop">📈 Drop chart images here, or click to choose</div>
+    <input type="file" id="fileIn" accept="image/*" multiple hidden>
+    <div class="thumbs" id="thumbs"></div>
+    <label class="f" for="ePos">Positions held <span>— optional, shows at the bottom of the post</span></label>
+    <input class="in" id="ePos" maxlength="1000" placeholder="e.g. Long BTC, ETH. No position in SPY.">
+    <div class="actions">
+      <span class="msg" id="editMsg"></span>
+      <div style="display:flex;gap:8px">
+        <button class="btn" data-close>Cancel</button>
+        <button class="btn primary" id="saveBtn">Publish</button>
+      </div>
+    </div>
+    <p class="hint" style="margin:12px 0 0">Tip: press Ctrl/⌘ + Enter to publish.</p>
+  </div>
+</div>
+
+<div class="modal lightbox" id="lightbox"><img alt=""></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = (s, r=document) => r.querySelector(s);
+const PER_POST_DISCLOSURE = 'Personal opinion of Brock Hall, CFP®, and not the views of his employer. For informational purposes only; not investment advice or a recommendation to buy or sell any security or asset. Investing involves risk. <a href="#disclosures">Full disclosures</a>.';
+let posts = [];
+let password = '';
+let editing = null;        // post being edited, or null for new
+let keepImages = [];       // existing image URLs kept while editing
+let newImages = [];        // data URLs to upload
+
+try { password = sessionStorage.getItem('rtw_pw') || ''; } catch {}
+$('#yr').textContent = new Date().getFullYear();
+document.querySelector('footer').id = 'disclosures';
+
+function toast(t){ const el=$('#toast'); el.textContent=t; el.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>el.classList.remove('show'),2200); }
+function esc(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function md(s){
+  try { return DOMPurify.sanitize(marked.parse(s||'', {breaks:true, gfm:true})); }
+  catch { return '<p>'+esc(s).replace(/\n\n+/g,'</p><p>').replace(/\n/g,'<br>')+'</p>'; }
+}
+function fmtDate(iso){
+  const d=new Date(iso);
+  return d.toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'})+' · '+d.toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'});
+}
+
+async function api(method, body){
+  const r = await fetch('/api/posts', { method, headers:{'Content-Type':'application/json'}, body: body?JSON.stringify(body):undefined });
+  let data={}; try { data = await r.json(); } catch {}
+  if(!r.ok) throw new Error(data.error || ('Request failed ('+r.status+')'));
+  return data;
+}
+
+function render(){
+  const feed=$('#feed');
+  if(!posts.length){ feed.innerHTML='<div class="empty">No posts yet — the tide is out. 🌊</div>'; return; }
+  feed.innerHTML = posts.map(p=>`
+    <article class="post" id="post-${esc(p.id)}">
+      <div class="post-meta">
+        <time datetime="${esc(p.createdAt)}">${esc(fmtDate(p.createdAt))}${p.updatedAt?' · edited':''}</time>
+        <a href="#post-${esc(p.id)}" data-copy="${esc(p.id)}" title="Copy link to this post">🔗 link</a>
+      </div>
+      ${p.title?`<h2>${esc(p.title)}</h2>`:''}
+      <div class="post-body">${md(p.content)}</div>
+      ${p.images&&p.images.length?`<div class="gallery ${p.images.length===1?'single':''}">${p.images.map(u=>`<img src="${esc(u)}" alt="Chart for ${esc(p.title||'post')}" loading="lazy">`).join('')}</div>`:''}
+      ${p.positions?`<div class="positions"><span class="lbl">Positions held at time of writing</span>${esc(p.positions)}</div>`:''}
+      <div class="post-disc">${PER_POST_DISCLOSURE}</div>
+      <div class="admin-row">
+        <button class="btn small" data-edit="${esc(p.id)}">Edit</button>
+        <button class="btn small danger" data-del="${esc(p.id)}">Delete</button>
+      </div>
+    </article>`).join('');
+  if(location.hash.startsWith('#post-')){ const el=document.getElementById(location.hash.slice(1)); if(el) el.scrollIntoView(); }
+}
+
+async function load(){
+  try { posts = await api('GET'); render(); }
+  catch(e){ $('#feed').innerHTML='<div class="empty">Couldn\'t load posts right now. Try refreshing.</div>'; console.error(e); }
+}
+
+/* ---------- admin ---------- */
+function setAdmin(on){ document.body.classList.toggle('admin', on); }
+function openModal(id){ $(id).classList.add('open'); }
+function closeModals(){ document.querySelectorAll('.modal').forEach(m=>m.classList.remove('open')); }
+document.querySelectorAll('[data-close]').forEach(b=>b.onclick=closeModals);
+document.querySelectorAll('.modal').forEach(m=>m.addEventListener('mousedown',e=>{ if(e.target===m && m.id!=='editModal') closeModals(); }));
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModals(); });
+
+$('#adminLink').onclick = () => { if(password){ setAdmin(true); openEditor(null); } else { openModal('#loginModal'); $('#pw').focus(); } };
+if(location.hash==='#admin') setTimeout(()=>$('#adminLink').click(),300);
+
+async function doLogin(){
+  const pw=$('#pw').value; $('#loginMsg').textContent=''; $('#loginBtn').disabled=true;
+  try { await api('POST',{action:'login',password:pw}); password=pw; try{sessionStorage.setItem('rtw_pw',pw);}catch{} setAdmin(true); closeModals(); toast('Welcome back, Brock 🌊'); }
+  catch(e){ $('#loginMsg').textContent=e.message; }
+  $('#loginBtn').disabled=false;
+}
+$('#loginBtn').onclick=doLogin;
+$('#pw').addEventListener('keydown',e=>{ if(e.key==='Enter') doLogin(); });
+if(password) setAdmin(true);
+
+$('#newBtn').onclick=()=>openEditor(null);
+
+function openEditor(p){
+  editing=p; newImages=[]; keepImages=p?[...(p.images||[])]:[];
+  $('#editHeading').textContent = p?'Edit post':'New post';
+  $('#saveBtn').textContent = p?'Save changes':'Publish';
+  $('#eTitle').value=p?p.title:''; $('#eContent').value=p?p.content:''; $('#ePos').value=p?(p.positions||''):'';
+  $('#editMsg').textContent=''; drawThumbs(); openModal('#editModal'); $('#eTitle').focus();
+}
+
+function drawThumbs(){
+  const all=[...keepImages.map(u=>({u,k:1})),...newImages.map(u=>({u,k:0}))];
+  $('#thumbs').innerHTML = all.map((x,i)=>`<div class="thumb"><img src="${esc(x.u)}" alt=""><button data-rm="${i}" aria-label="Remove">×</button></div>`).join('');
+}
+$('#thumbs').onclick=e=>{
+  const i=e.target.dataset.rm; if(i===undefined) return;
+  const n=+i; if(n<keepImages.length) keepImages.splice(n,1); else newImages.splice(n-keepImages.length,1); drawThumbs();
+};
+
+function shrink(file){
+  return new Promise((res,rej)=>{
+    const img=new Image(); const url=URL.createObjectURL(file);
+    img.onload=()=>{
+      const max=1800; let w=img.width,h=img.height; const s=Math.min(1,max/Math.max(w,h)); w=Math.round(w*s); h=Math.round(h*s);
+      const c=document.createElement('canvas'); c.width=w; c.height=h; const x=c.getContext('2d');
+      x.fillStyle='#fff'; x.fillRect(0,0,w,h); x.drawImage(img,0,0,w,h); URL.revokeObjectURL(url);
+      const png=c.toDataURL('image/png'); const jpg=c.toDataURL('image/jpeg',0.88);
+      res(png.length < jpg.length*1.15 && png.length<1500000 ? png : jpg); // charts often stay crisp as PNG
+    };
+    img.onerror=()=>{URL.revokeObjectURL(url); rej(new Error('Could not read image'));};
+    img.src=url;
+  });
+}
+async function addFiles(files){
+  for(const f of files){
+    if(!f.type.startsWith('image/')) continue;
+    if(keepImages.length+newImages.length>=6){ $('#editMsg').textContent='Max 6 images per post'; break; }
+    try { newImages.push(await shrink(f)); } catch(e){ $('#editMsg').textContent=e.message; }
+  }
+  drawThumbs();
+}
+const drop=$('#drop');
+drop.onclick=()=>$('#fileIn').click();
+$('#fileIn').onchange=e=>{ addFiles([...e.target.files]); e.target.value=''; };
+drop.addEventListener('dragover',e=>{e.preventDefault(); drop.classList.add('over');});
+drop.addEventListener('dragleave',()=>drop.classList.remove('over'));
+drop.addEventListener('drop',e=>{e.preventDefault(); drop.classList.remove('over'); addFiles([...e.dataTransfer.files]);});
+document.addEventListener('paste',e=>{
+  if(!$('#editModal').classList.contains('open')) return;
+  const files=[...(e.clipboardData?.items||[])].filter(i=>i.type.startsWith('image/')).map(i=>i.getAsFile());
+  if(files.length){ e.preventDefault(); addFiles(files); }
+});
+
+async function save(){
+  const body={ password, title:$('#eTitle').value, content:$('#eContent').value, positions:$('#ePos').value, newImages, keepImages };
+  if(!body.title.trim() && !body.content.trim()){ $('#editMsg').textContent='Write something first'; return; }
+  const size=JSON.stringify(body).length;
+  if(size>4200000){ $('#editMsg').textContent='Images are too large together — remove one and try again'; return; }
+  body.action = editing?'update':'create'; if(editing) body.id=editing.id;
+  $('#saveBtn').disabled=true; $('#editMsg').textContent='';
+  const oldLabel=$('#saveBtn').textContent; $('#saveBtn').textContent='Saving…';
+  try {
+    const p=await api('POST',body);
+    if(editing) posts=posts.map(x=>x.id===p.id?p:x); else posts.unshift(p);
+    render(); closeModals(); toast(editing?'Post updated':'Posted! 🌊');
+    if(!editing) window.scrollTo({top:$('#feed').offsetTop-20});
+  } catch(e){
+    $('#editMsg').textContent=e.message;
+    if(/password/i.test(e.message)){ password=''; try{sessionStorage.removeItem('rtw_pw');}catch{} setAdmin(false); }
+  }
+  $('#saveBtn').disabled=false; $('#saveBtn').textContent=oldLabel;
+}
+$('#saveBtn').onclick=save;
+$('#editModal').addEventListener('keydown',e=>{ if(e.key==='Enter'&&(e.metaKey||e.ctrlKey)) save(); });
+
+$('#feed').addEventListener('click',async e=>{
+  const t=e.target;
+  if(t.dataset.copy){ e.preventDefault(); const link=location.origin+location.pathname+'#post-'+t.dataset.copy;
+    try{ await navigator.clipboard.writeText(link); toast('Link copied'); }catch{ location.hash='post-'+t.dataset.copy; } return; }
+  if(t.tagName==='IMG' && t.closest('.gallery')){ $('#lightbox img').src=t.src; openModal('#lightbox'); return; }
+  if(t.dataset.edit){ openEditor(posts.find(p=>p.id===t.dataset.edit)); return; }
+  if(t.dataset.del){
+    if(!confirm('Delete this post permanently?')) return;
+    t.disabled=true;
+    try { await api('POST',{action:'delete',id:t.dataset.del,password}); posts=posts.filter(p=>p.id!==t.dataset.del); render(); toast('Post deleted'); }
+    catch(e){ alert(e.message); t.disabled=false; }
+  }
+});
+$('#lightbox').onclick=closeModals;
+
+load();
+</script>
+</body>
+</html>
