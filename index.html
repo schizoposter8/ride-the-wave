@@ -145,6 +145,10 @@ body.photo .subtitle{color:#e6f7fa}
 .post-body table{border-collapse:collapse; width:100%; font-size:15px}
 .post-body th,.post-body td{border:1px solid var(--line); padding:6px 10px; text-align:left}
 .gallery{display:grid; gap:10px; margin:6px 0 16px; grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.gallery.size-S{max-width:340px}
+.gallery.size-M{max-width:600px}
+.size-row{display:flex; align-items:center; gap:12px; margin-top:12px; flex-wrap:wrap}
+.size-row .cat-pick span{padding:5px 14px; font-size:13px}
 .gallery img{width:100%; border-radius:10px; border:1px solid var(--line); cursor:zoom-in; display:block; background:#0003}
 .gallery.single{grid-template-columns:1fr}
 .positions{margin:18px 0 0; padding:12px 16px; border-radius:10px; background:rgba(217,199,163,.07); border:1px solid rgba(217,199,163,.22); font-size:15px}
@@ -317,6 +321,14 @@ textarea.in{min-height:240px; resize:vertical; line-height:1.6}
     <div class="drop" id="drop">📈 Drop chart images here, or click to choose</div>
     <input type="file" id="fileIn" accept="image/*" multiple hidden>
     <div class="thumbs" id="thumbs"></div>
+    <div class="size-row" id="sizeRow">
+      <span class="hint">Image size:</span>
+      <div class="cat-pick" id="sizePick">
+        <label><input type="radio" name="isize" value="S"><span>Small</span></label>
+        <label><input type="radio" name="isize" value="M"><span>Medium</span></label>
+        <label><input type="radio" name="isize" value="L" checked><span>Large</span></label>
+      </div>
+    </div>
     <label class="f">Topic</label>
     <div class="cat-pick" id="catPick">
       <label><input type="radio" name="cat" value="Macro"><span>Macro</span></label>
@@ -448,7 +460,7 @@ function render(){
       </div>
       ${p.title?`<h2>${esc(p.title)}</h2>`:''}
       <div class="post-body">${md(p.content)}</div>
-      ${p.images&&p.images.length?`<div class="gallery ${p.images.length===1?'single':''}">${p.images.map(u=>`<img src="${esc(u)}" alt="Chart for ${esc(p.title||'post')}" loading="lazy">`).join('')}</div>`:''}
+      ${p.images&&p.images.length?`<div class="gallery ${p.images.length===1?'single':''} size-${['S','M','L'].includes(p.imageSize)?p.imageSize:'L'}">${p.images.map(u=>`<img src="${esc(u)}" alt="Chart for ${esc(p.title||'post')}" loading="lazy">`).join('')}</div>`:''}
       ${p.positions?`<div class="positions"><span class="lbl">Positions held at time of writing</span>${esc(p.positions)}</div>`:''}
       <div class="admin-row">
         <button class="btn small" data-edit="${esc(p.id)}">Edit</button>
@@ -492,6 +504,7 @@ function openEditor(p){
   $('#editHeading').textContent = p?'Edit post':'New post';
   $('#saveBtn').textContent = p?'Save changes':'Publish';
   document.querySelector(`#catPick input[value="${p&&p.category||'Other'}"]`).checked=true;
+  document.querySelector(`#sizePick input[value="${p&&p.imageSize||'L'}"]`).checked=true;
   $('#eTitle').value=p?p.title:''; $('#eContent').value=p?p.content:''; $('#ePos').value=p?(p.positions||''):'';
   $('#editMsg').textContent=''; drawThumbs(); openModal('#editModal'); $('#eTitle').focus();
 }
@@ -540,7 +553,7 @@ document.addEventListener('paste',e=>{
 });
 
 async function save(){
-  const body={ password, title:$('#eTitle').value, content:$('#eContent').value, positions:$('#ePos').value, category:(document.querySelector('#catPick input:checked')||{}).value||'Other', newImages, keepImages };
+  const body={ password, title:$('#eTitle').value, content:$('#eContent').value, positions:$('#ePos').value, category:(document.querySelector('#catPick input:checked')||{}).value||'Other', imageSize:(document.querySelector('#sizePick input:checked')||{}).value||'L', newImages, keepImages };
   if(!body.title.trim() && !body.content.trim()){ $('#editMsg').textContent='Write something first'; return; }
   const size=JSON.stringify(body).length;
   if(size>4200000){ $('#editMsg').textContent='Images are too large together — remove one and try again'; return; }
