@@ -7,6 +7,7 @@ import crypto from 'node:crypto';
 const MAX_IMAGES = 6;
 const CATEGORIES = ['Macro', 'Stocks', 'Crypto', 'Real Estate', 'Personal Finance', 'Other'];
 const cat = (c) => (CATEGORIES.includes(c) ? c : 'Other');
+const size = (z) => (['S', 'M', 'L'].includes(z) ? z : 'L');
 
 function passwordOk(pw) {
   const real = process.env.ADMIN_PASSWORD || '';
@@ -130,6 +131,7 @@ export default async function handler(req, res) {
         content,
         positions: clean(body.positions, 1000),
         category: cat(body.category),
+        imageSize: size(body.imageSize),
         images,
         createdAt: new Date().toISOString(),
       };
@@ -160,6 +162,7 @@ export default async function handler(req, res) {
         content: clean(body.content, 50000),
         positions: clean(body.positions, 1000),
         category: cat(body.category),
+        imageSize: size(body.imageSize),
         images: [...keep, ...added],
         updatedAt: new Date().toISOString(),
       };
