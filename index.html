@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ride the Wave — Market Thoughts</title>
+<title>Ride the Wave — Market Ups and Downs</title>
 <meta name="description" content="Ride the Wave — personal market thoughts by Brock Hall, CFP®.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -59,13 +59,45 @@ body.photo header.hero{text-shadow:0 2px 18px rgba(0,20,30,.45)}
 /* ---------- layout ---------- */
 .wrap{position:relative; z-index:1; max-width:760px; margin:0 auto; padding:0 20px}
 header.hero{padding:13vh 0 7vh; text-align:left}
-.eyebrow{font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:#0e6f86; font-weight:500}
+.eyebrow{font-family:'JetBrains Mono',monospace; font-size:clamp(15px,2.4vw,20px); letter-spacing:.3em; text-transform:uppercase; color:#0e6f86; font-weight:500}
 h1.title{font-family:Fraunces,serif; font-weight:400; font-size:clamp(52px,11vw,96px); line-height:.95; margin:.25em 0 .2em; letter-spacing:-.02em; color:#08263a}
 h1.title em{font-style:italic; font-weight:300; color:#0f86a1}
 .byline{display:flex; gap:14px; align-items:center; flex-wrap:wrap; color:#2a5668; font-size:15px}
 .byline .dot{width:4px; height:4px; border-radius:50%; background:#5c8a9a}
 .byline strong{color:#08263a; font-weight:700}
 
+.subtitle{font-family:Fraunces,serif; font-style:italic; font-weight:300; font-size:clamp(22px,4vw,32px); color:#0e5f74; margin:-.1em 0 .55em}
+body.photo .subtitle{color:#e6f7fa}
+.layout{position:relative}
+.topics{position:absolute; right:calc(100% + 28px); top:0; width:190px; height:100%}
+.topics-toggle{position:sticky; top:20px; width:100%; display:flex; justify-content:space-between; align-items:center; gap:8px;
+  background:var(--card); color:var(--foam); border:1px solid rgba(255,255,255,.14); border-radius:14px; padding:12px 16px;
+  font:600 15px Manrope,sans-serif; cursor:pointer; backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px)}
+.topics-toggle .t-lbl{font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--sand); margin-right:4px}
+.topics-toggle .chev{transition:transform .2s; color:var(--glow)}
+.topics.closed .chev{transform:rotate(-90deg)}
+.topics-list{position:sticky; top:72px; list-style:none; margin:8px 0 0; padding:6px; background:var(--card); border:1px solid rgba(255,255,255,.14);
+  border-radius:14px; backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px)}
+.topics.closed .topics-list{display:none}
+.topics-list button{width:100%; display:flex; justify-content:space-between; align-items:center; background:none; border:0; color:var(--mist);
+  font:500 15px Manrope,sans-serif; padding:10px 12px; border-radius:9px; cursor:pointer; text-align:left}
+.topics-list button:hover{background:rgba(127,211,230,.08); color:var(--foam)}
+.topics-list button.on{background:rgba(127,211,230,.16); color:var(--foam); font-weight:700}
+.topics-list .sep{height:1px; background:rgba(255,255,255,.1); margin:4px 8px}
+.topics-list .n{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--dim)}
+.tag{display:inline-block; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--glow); border:1px solid rgba(127,211,230,.35); border-radius:999px; padding:2px 10px; margin-right:10px; cursor:pointer; background:none}
+.tag:hover{background:rgba(127,211,230,.12)}
+.cat-pick{display:flex; flex-wrap:wrap; gap:8px}
+.cat-pick label{cursor:pointer}
+.cat-pick input{display:none}
+.cat-pick span{display:inline-block; padding:7px 16px; border-radius:999px; border:1px solid var(--line); color:var(--mist); font-size:14px; font-weight:600}
+.cat-pick input:checked+span{background:var(--glow); color:#03202b; border-color:var(--glow)}
+@media (max-width:1240px){
+  .topics{position:relative; right:auto; width:100%; height:auto; margin-bottom:18px; z-index:3}
+  .topics-toggle{position:relative; top:0}
+  .topics-list{position:absolute; left:0; right:0; top:100%; z-index:4; background:#0a2034; box-shadow:0 20px 40px -10px rgba(0,0,0,.5)}
+}
 /* ---------- posts ---------- */
 .feed{display:flex; flex-direction:column; gap:28px; padding-bottom:40px}
 .post{background:var(--card); border:1px solid rgba(255,255,255,.12); border-radius:18px; padding:30px 32px 24px;
@@ -196,10 +228,19 @@ textarea.in{min-height:240px; resize:vertical; line-height:1.6}
   <header class="hero">
     <div class="eyebrow">Market Thoughts</div>
     <h1 class="title">Ride the <em>Wave</em></h1>
-    <div class="byline"><strong>Brock Hall, CFP®</strong><span class="dot"></span><span>Personal notes on markets, macro &amp; crypto</span></div>
+    <div class="subtitle">Market Ups and Downs</div>
+    <div class="byline"><strong>Brock Hall, CFP®</strong></div>
   </header>
 
-  <main id="feed" class="feed"><div class="loading">Checking the tide…</div></main>
+  <div class="layout">
+    <aside class="topics" id="topics">
+      <button class="topics-toggle" id="topicsToggle" aria-expanded="true">
+        <span><span class="t-lbl">Topics</span> <span id="topicCurrent">All</span></span><span class="chev">▾</span>
+      </button>
+      <ul class="topics-list" id="topicsList"></ul>
+    </aside>
+    <main id="feed" class="feed"><div class="loading">Checking the tide…</div></main>
+  </div>
 </div>
 
 <footer>
@@ -246,6 +287,13 @@ textarea.in{min-height:240px; resize:vertical; line-height:1.6}
     <div class="drop" id="drop">📈 Drop chart images here, or click to choose</div>
     <input type="file" id="fileIn" accept="image/*" multiple hidden>
     <div class="thumbs" id="thumbs"></div>
+    <label class="f">Topic</label>
+    <div class="cat-pick" id="catPick">
+      <label><input type="radio" name="cat" value="Macro"><span>Macro</span></label>
+      <label><input type="radio" name="cat" value="Stocks"><span>Stocks</span></label>
+      <label><input type="radio" name="cat" value="Crypto"><span>Crypto</span></label>
+      <label><input type="radio" name="cat" value="Other" checked><span>Other</span></label>
+    </div>
     <label class="f" for="ePos">Positions held <span>— optional, shows at the bottom of the post</span></label>
     <input class="in" id="ePos" maxlength="1000" placeholder="e.g. Long BTC, ETH. No position in SPY.">
     <div class="actions">
@@ -256,6 +304,21 @@ textarea.in{min-height:240px; resize:vertical; line-height:1.6}
       </div>
     </div>
     <p class="hint" style="margin:12px 0 0">Tip: press Ctrl/⌘ + Enter to publish.</p>
+  </div>
+</div>
+
+<div class="modal" id="aboutModal">
+  <div class="panel">
+    <h3>Edit overview</h3>
+    <label class="f" for="aContent">Overview text <span>— blank line = new paragraph. **bold**, *italic*, - bullets</span></label>
+    <textarea class="in" id="aContent" style="min-height:300px"></textarea>
+    <div class="actions">
+      <span class="msg" id="aboutMsg"></span>
+      <div style="display:flex;gap:8px">
+        <button class="btn" data-close>Cancel</button>
+        <button class="btn primary" id="saveAbout">Save</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -293,13 +356,61 @@ async function api(method, body){
   return data;
 }
 
+const TOPICS=['All','Macro','Stocks','Crypto','Other'];
+const VIEWS=['Overview',...TOPICS];
+let about=null;
+let topic='All';
+try{ const h=new URLSearchParams(location.search).get('topic'); if(VIEWS.includes(h)) topic=h; }catch{}
+const catOf=p=>TOPICS.includes(p.category)&&p.category!=='All'?p.category:'Other';
+function renderTopics(){
+  $('#topicCurrent').textContent=topic;
+  $('#topicsList').innerHTML=`<li><button data-topic="Overview" class="${topic==='Overview'?'on':''}">Overview<span class="n">ⓘ</span></button></li><li class="sep"></li>`+TOPICS.map(t=>{
+    const n=t==='All'?posts.length:posts.filter(p=>catOf(p)===t).length;
+    return `<li><button data-topic="${t}" class="${t===topic?'on':''}">${t}<span class="n">${n}</span></button></li>`;
+  }).join('');
+}
+function setTopic(t){
+  topic=t; try{ const u=new URL(location); if(t==='All') u.searchParams.delete('topic'); else u.searchParams.set('topic',t); u.hash=''; history.replaceState(null,'',u); }catch{}
+  if(matchMedia('(max-width:1240px)').matches) closeTopics(true);
+  render(); window.scrollTo({top:$('.layout').offsetTop-20});
+}
+function closeTopics(c){ $('#topics').classList.toggle('closed',c); $('#topicsToggle').setAttribute('aria-expanded',String(!c)); }
+$('#topicsToggle').onclick=()=>closeTopics(!$('#topics').classList.contains('closed'));
+$('#topicsList').onclick=e=>{ const b=e.target.closest('[data-topic]'); if(b) setTopic(b.dataset.topic); };
+if(matchMedia('(max-width:1240px)').matches) closeTopics(true);
+document.addEventListener('click',e=>{ if(matchMedia('(max-width:1240px)').matches && !e.target.closest('#topics')) closeTopics(true); });
+
+const DEFAULT_ABOUT = `Welcome to **Ride the Wave**. This is where I share my personal thoughts on the market's ups and downs: macro, stocks, crypto, and whatever else is moving.
+
+I'm Brock Hall, a CERTIFIED FINANCIAL PLANNER™ professional. Everything here is my own opinion, written for fun and to think out loud. It isn't advice, and it isn't the view of my employer.
+
+Posts are newest first. Use the Topics menu to filter by subject.`;
+function renderOverview(){
+  const text=(about&&about.content)||DEFAULT_ABOUT;
+  $('#feed').innerHTML=`<article class="post overview">
+      <div class="post-meta"><span><span class="tag" style="cursor:default">Overview</span></span></div>
+      <h2>About Ride the Wave</h2>
+      <div class="post-body">${md(text)}</div>
+      <div class="post-disc">${PER_POST_DISCLOSURE}</div>
+      <div class="admin-row"><button class="btn small" id="editAbout">Edit overview</button></div>
+    </article>`;
+}
+async function loadAbout(){
+  try{ const r=await fetch('/api/posts?about=1'); if(r.ok){ const a=await r.json(); if(a&&a.content) about=a; } }catch{}
+  if(topic==='Overview') render();
+}
+
 function render(){
   const feed=$('#feed');
+  renderTopics();
+  if(topic==='Overview'){ renderOverview(); return; }
   if(!posts.length){ feed.innerHTML='<div class="empty">No posts yet — the tide is out. 🌊</div>'; return; }
-  feed.innerHTML = posts.map(p=>`
+  const shown=topic==='All'?posts:posts.filter(p=>catOf(p)===topic);
+  if(!shown.length){ feed.innerHTML=`<div class="empty">No ${esc(topic)} posts yet. 🌊</div>`; return; }
+  feed.innerHTML = shown.map(p=>`
     <article class="post" id="post-${esc(p.id)}">
       <div class="post-meta">
-        <time datetime="${esc(p.createdAt)}">${esc(fmtDate(p.createdAt))}${p.updatedAt?' · edited':''}</time>
+        <span><button class="tag" data-topic-tag="${catOf(p)}">${catOf(p)}</button><time datetime="${esc(p.createdAt)}">${esc(fmtDate(p.createdAt))}${p.updatedAt?' · edited':''}</time></span>
         <a href="#post-${esc(p.id)}" data-copy="${esc(p.id)}" title="Copy link to this post">🔗 link</a>
       </div>
       ${p.title?`<h2>${esc(p.title)}</h2>`:''}
@@ -325,7 +436,7 @@ function setAdmin(on){ document.body.classList.toggle('admin', on); }
 function openModal(id){ $(id).classList.add('open'); }
 function closeModals(){ document.querySelectorAll('.modal').forEach(m=>m.classList.remove('open')); }
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=closeModals);
-document.querySelectorAll('.modal').forEach(m=>m.addEventListener('mousedown',e=>{ if(e.target===m && m.id!=='editModal') closeModals(); }));
+document.querySelectorAll('.modal').forEach(m=>m.addEventListener('mousedown',e=>{ if(e.target===m && m.id!=='editModal' && m.id!=='aboutModal') closeModals(); }));
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModals(); });
 
 $('#adminLink').onclick = () => { if(password){ setAdmin(true); openEditor(null); } else { openModal('#loginModal'); $('#pw').focus(); } };
@@ -347,6 +458,7 @@ function openEditor(p){
   editing=p; newImages=[]; keepImages=p?[...(p.images||[])]:[];
   $('#editHeading').textContent = p?'Edit post':'New post';
   $('#saveBtn').textContent = p?'Save changes':'Publish';
+  document.querySelector(`#catPick input[value="${p&&p.category||'Other'}"]`).checked=true;
   $('#eTitle').value=p?p.title:''; $('#eContent').value=p?p.content:''; $('#ePos').value=p?(p.positions||''):'';
   $('#editMsg').textContent=''; drawThumbs(); openModal('#editModal'); $('#eTitle').focus();
 }
@@ -395,7 +507,7 @@ document.addEventListener('paste',e=>{
 });
 
 async function save(){
-  const body={ password, title:$('#eTitle').value, content:$('#eContent').value, positions:$('#ePos').value, newImages, keepImages };
+  const body={ password, title:$('#eTitle').value, content:$('#eContent').value, positions:$('#ePos').value, category:(document.querySelector('#catPick input:checked')||{}).value||'Other', newImages, keepImages };
   if(!body.title.trim() && !body.content.trim()){ $('#editMsg').textContent='Write something first'; return; }
   const size=JSON.stringify(body).length;
   if(size>4200000){ $('#editMsg').textContent='Images are too large together — remove one and try again'; return; }
@@ -418,6 +530,8 @@ $('#editModal').addEventListener('keydown',e=>{ if(e.key==='Enter'&&(e.metaKey||
 
 $('#feed').addEventListener('click',async e=>{
   const t=e.target;
+  if(t.id==='editAbout'){ $('#aContent').value=(about&&about.content)||DEFAULT_ABOUT; $('#aboutMsg').textContent=''; openModal('#aboutModal'); return; }
+  if(t.dataset.topicTag){ setTopic(t.dataset.topicTag); return; }
   if(t.dataset.copy){ e.preventDefault(); const link=location.origin+location.pathname+'#post-'+t.dataset.copy;
     try{ await navigator.clipboard.writeText(link); toast('Link copied'); }catch{ location.hash='post-'+t.dataset.copy; } return; }
   if(t.tagName==='IMG' && t.closest('.gallery')){ $('#lightbox img').src=t.src; openModal('#lightbox'); return; }
@@ -434,7 +548,15 @@ $('#lightbox').onclick=closeModals;
 /* photo background: if beach.jpg exists in the repo, use it */
 (function(){ const im=new Image(); im.onload=()=>{ document.querySelector('.photo-bg').style.backgroundImage='url(beach.jpg)'; document.body.classList.add('photo'); }; im.src='beach.jpg'; })();
 
+$('#saveAbout').onclick=async()=>{
+  const b=$('#saveAbout'); b.disabled=true; $('#aboutMsg').textContent='';
+  try{ about=await api('POST',{action:'saveAbout',password,content:$('#aContent').value}); closeModals(); render(); toast('Overview saved'); }
+  catch(e){ $('#aboutMsg').textContent=e.message; }
+  b.disabled=false;
+};
+
 load();
+loadAbout();
 </script>
 </body>
 </html>
