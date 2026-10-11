@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ride the Wave — Market Ups and Downs</title>
-<meta name="description" content="Ride the Wave — personal market thoughts by Brock Hall, CFP®.">
+<title>Ride the Market Wave</title>
+<meta name="description" content="Ride the Market Wave — personal market thoughts by Brock Hall, CFP®.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -60,7 +60,8 @@ body.photo header.hero{text-shadow:0 2px 18px rgba(0,20,30,.45)}
 .wrap{position:relative; z-index:1; max-width:760px; margin:0 auto; padding:0 20px}
 header.hero{padding:13vh 0 7vh; text-align:left}
 .eyebrow{font-family:'JetBrains Mono',monospace; font-size:clamp(15px,2.4vw,20px); letter-spacing:.3em; text-transform:uppercase; color:#0e6f86; font-weight:500}
-h1.title{font-family:Fraunces,serif; font-weight:400; font-size:clamp(52px,11vw,96px); line-height:.95; margin:.25em 0 .2em; letter-spacing:-.02em; color:#08263a}
+h1.title{font-family:Fraunces,serif; font-weight:400; font-size:clamp(44px,7vw,82px); line-height:.95; margin:.25em 0 .2em; letter-spacing:-.02em; color:#08263a}
+@media (min-width:900px){h1.title{white-space:nowrap}}
 h1.title em{font-style:italic; font-weight:300; color:#0f86a1}
 .byline{display:flex; gap:14px; align-items:center; flex-wrap:wrap; color:#2a5668; font-size:15px}
 .byline .dot{width:4px; height:4px; border-radius:50%; background:#5c8a9a}
@@ -69,7 +70,7 @@ h1.title em{font-style:italic; font-weight:300; color:#0f86a1}
 .subtitle{font-family:Fraunces,serif; font-style:italic; font-weight:300; font-size:clamp(22px,4vw,32px); color:#0e5f74; margin:-.1em 0 .55em}
 body.photo .subtitle{color:#e6f7fa}
 .layout{position:relative}
-.topics{position:absolute; right:calc(100% + 28px); top:0; width:190px; height:100%}
+.topics{position:absolute; right:calc(100% + 64px); top:0; width:250px; height:100%}
 .topics-toggle{position:sticky; top:20px; width:100%; display:flex; justify-content:space-between; align-items:center; gap:8px;
   background:var(--card); color:var(--foam); border:1px solid rgba(255,255,255,.14); border-radius:14px; padding:12px 16px;
   font:600 15px Manrope,sans-serif; cursor:pointer; backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px)}
@@ -93,7 +94,7 @@ body.photo .subtitle{color:#e6f7fa}
 .cat-pick input{display:none}
 .cat-pick span{display:inline-block; padding:7px 16px; border-radius:999px; border:1px solid var(--line); color:var(--mist); font-size:14px; font-weight:600}
 .cat-pick input:checked+span{background:var(--glow); color:#03202b; border-color:var(--glow)}
-@media (max-width:1240px){
+@media (max-width:1420px){
   .topics{position:relative; right:auto; width:100%; height:auto; margin-bottom:18px; z-index:3}
   .topics-toggle{position:relative; top:0}
   .topics-list{position:absolute; left:0; right:0; top:100%; z-index:4; background:#0a2034; box-shadow:0 20px 40px -10px rgba(0,0,0,.5)}
@@ -143,12 +144,14 @@ body.admin .fab{display:inline-flex}
 /* ---------- footer ---------- */
 footer{position:relative; z-index:1; margin-top:30px; padding:70px 0 60px;
   background:linear-gradient(180deg,rgba(5,30,46,0),rgba(5,30,46,.42) 20%,rgba(4,24,38,.55))}
+footer .wrap{max-width:1180px}
 footer h3{font-family:'JetBrains Mono',monospace; font-weight:500; font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:#fbefcf; margin:0 0 12px}
 footer p{font-size:13px; line-height:1.65; color:#e6f0f4; margin:0 0 10px; text-shadow:0 1px 3px rgba(0,15,25,.85),0 0 12px rgba(0,15,25,.5)}
 footer h3,.foot-bottom{text-shadow:0 1px 3px rgba(0,15,25,.85)}
 .foot-bottom{color:#cfe0e8 !important}
 .foot-bottom{display:flex; justify-content:space-between; align-items:center; margin-top:24px; font-size:12px; color:var(--dim)}
-.foot-bottom button{background:none; border:0; color:var(--dim); cursor:pointer; font:inherit; padding:4px}
+.foot-bottom button{background:none; border:0; cursor:pointer; font-size:40px; line-height:1; padding:6px; transition:transform .2s}
+.foot-bottom button:hover{transform:scale(1.15) rotate(-6deg)}
 .foot-bottom button:hover{color:var(--glow)}
 
 /* ---------- modals ---------- */
@@ -227,8 +230,7 @@ textarea.in{min-height:240px; resize:vertical; line-height:1.6}
 <div class="wrap">
   <header class="hero">
     <div class="eyebrow">Market Thoughts</div>
-    <h1 class="title">Ride the <em>Wave</em></h1>
-    <div class="subtitle">Market Ups and Downs</div>
+    <h1 class="title">Ride the Market <em>Wave</em></h1>
     <div class="byline"><strong>Brock Hall, CFP®</strong></div>
   </header>
 
@@ -251,7 +253,7 @@ textarea.in{min-height:240px; resize:vertical; line-height:1.6}
     <p>Investing involves risk, including the possible loss of principal. Past performance does not guarantee future results. Cryptocurrencies and other digital assets are highly speculative and volatile and may lose all value. Any forecasts, projections, or opinions are inherently uncertain, may prove incorrect, and may change without notice. Information is obtained from sources believed to be reliable but its accuracy and completeness are not guaranteed.</p>
     <p>The author may hold, buy, or sell positions in any securities or assets discussed, before or after publication, without notice. Positions noted in a post reflect holdings at the time of writing only. Always do your own research and consult a qualified professional about your specific situation before making any financial decision.</p>
     <div class="foot-bottom">
-      <span>© <span id="yr"></span> Brock Hall · Ride the Wave</span>
+      <span>© <span id="yr"></span> Brock Hall · Ride the Market Wave</span>
       <button id="adminLink" title="Author login" aria-label="Author login">🌊</button>
     </div>
   </div>
@@ -292,6 +294,7 @@ textarea.in{min-height:240px; resize:vertical; line-height:1.6}
       <label><input type="radio" name="cat" value="Macro"><span>Macro</span></label>
       <label><input type="radio" name="cat" value="Stocks"><span>Stocks</span></label>
       <label><input type="radio" name="cat" value="Crypto"><span>Crypto</span></label>
+      <label><input type="radio" name="cat" value="Personal Finance"><span>Personal Finance</span></label>
       <label><input type="radio" name="cat" value="Other" checked><span>Other</span></label>
     </div>
     <label class="f" for="ePos">Positions held <span>— optional, shows at the bottom of the post</span></label>
@@ -356,7 +359,7 @@ async function api(method, body){
   return data;
 }
 
-const TOPICS=['All','Macro','Stocks','Crypto','Other'];
+const TOPICS=['All','Macro','Stocks','Crypto','Personal Finance','Other'];
 const VIEWS=['Overview',...TOPICS];
 let about=null;
 let topic='All';
@@ -371,16 +374,16 @@ function renderTopics(){
 }
 function setTopic(t){
   topic=t; try{ const u=new URL(location); if(t==='All') u.searchParams.delete('topic'); else u.searchParams.set('topic',t); u.hash=''; history.replaceState(null,'',u); }catch{}
-  if(matchMedia('(max-width:1240px)').matches) closeTopics(true);
+  if(matchMedia('(max-width:1420px)').matches) closeTopics(true);
   render(); window.scrollTo({top:$('.layout').offsetTop-20});
 }
 function closeTopics(c){ $('#topics').classList.toggle('closed',c); $('#topicsToggle').setAttribute('aria-expanded',String(!c)); }
 $('#topicsToggle').onclick=()=>closeTopics(!$('#topics').classList.contains('closed'));
 $('#topicsList').onclick=e=>{ const b=e.target.closest('[data-topic]'); if(b) setTopic(b.dataset.topic); };
-if(matchMedia('(max-width:1240px)').matches) closeTopics(true);
-document.addEventListener('click',e=>{ if(matchMedia('(max-width:1240px)').matches && !e.target.closest('#topics')) closeTopics(true); });
+if(matchMedia('(max-width:1420px)').matches) closeTopics(true);
+document.addEventListener('click',e=>{ if(matchMedia('(max-width:1420px)').matches && !e.target.closest('#topics')) closeTopics(true); });
 
-const DEFAULT_ABOUT = `Welcome to **Ride the Wave**. This is where I share my personal thoughts on the market's ups and downs: macro, stocks, crypto, and whatever else is moving.
+const DEFAULT_ABOUT = `Welcome to **Ride the Market Wave**. This is where I share my personal thoughts on the market's ups and downs: macro, stocks, crypto, and whatever else is moving.
 
 I'm Brock Hall, a CERTIFIED FINANCIAL PLANNER™ professional. Everything here is my own opinion, written for fun and to think out loud. It isn't advice, and it isn't the view of my employer.
 
@@ -389,7 +392,7 @@ function renderOverview(){
   const text=(about&&about.content)||DEFAULT_ABOUT;
   $('#feed').innerHTML=`<article class="post overview">
       <div class="post-meta"><span><span class="tag" style="cursor:default">Overview</span></span></div>
-      <h2>About Ride the Wave</h2>
+      <h2>About Ride the Market Wave</h2>
       <div class="post-body">${md(text)}</div>
       <div class="post-disc">${PER_POST_DISCLOSURE}</div>
       <div class="admin-row"><button class="btn small" id="editAbout">Edit overview</button></div>
