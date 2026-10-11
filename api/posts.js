@@ -5,6 +5,8 @@ import { put, list, del } from '@vercel/blob';
 import crypto from 'node:crypto';
 
 const MAX_IMAGES = 6;
+const CATEGORIES = ['Macro', 'Stocks', 'Crypto', 'Other'];
+const cat = (c) => (CATEGORIES.includes(c) ? c : 'Other');
 
 function passwordOk(pw) {
   const real = process.env.ADMIN_PASSWORD || '';
@@ -43,6 +45,18 @@ async function loadPosts() {
   return posts.filter(Boolean).sort((x, y) => (y.createdAt || '').localeCompare(x.createdAt || ''));
 }
 
+async function loadAbout() {
+  const r = await list({ prefix: 'site/about' });
+  const b = r.blobs.sort((x, y) => new Date(y.uploadedAt) - new Date(x.uploadedAt))[0];
+  if (!b) return { about: null, blobs: r.blobs };
+  try {
+    const res = await fetch(b.url, { cache: 'no-store' });
+    return { about: res.ok ? await res.json() : null, blobs: r.blobs };
+  } catch {
+    return { about: null, blobs: r.blobs };
+  }
+}
+
 async function saveImages(dataUrls, id) {
   const urls = [];
   for (const [i, d] of (dataUrls || []).entries()) {
@@ -75,6 +89,10 @@ async function writePost(post) {
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
   try {
+    if (req.method === 'GET' && req.query && 'about' in req.query) {
+      const { about } = await loadAbout();
+      return res.status(200).json(about || {});
+    }
     if (req.method === 'GET') {
       const posts = await loadPosts();
       return res.status(200).json(posts.map(({ _blobUrl, ...p }) => p));
@@ -87,6 +105,19 @@ export default async function handler(req, res) {
 
     if (body.action === 'login') return res.status(200).json({ ok: true });
 
+    if (body.action === 'saveAbout') {
+      const { blobs } = await loadAbout();
+      const about = { content: clean(body.content, 20000), updatedAt: new Date().toISOString() };
+      await put('site/about.json', JSON.stringify(about), {
+        access: 'public',
+        contentType: 'application/json',
+        addRandomSuffix: true,
+        cacheControlMaxAge: 60,
+      });
+      if (blobs.length) await del(blobs.map((b) => b.url));
+      return res.status(200).json(about);
+    }
+
     if (body.action === 'create') {
       const title = clean(body.title, 200);
       const content = clean(body.content, 50000);
@@ -98,6 +129,7 @@ export default async function handler(req, res) {
         title,
         content,
         positions: clean(body.positions, 1000),
+        category: cat(body.category),
         images,
         createdAt: new Date().toISOString(),
       };
@@ -127,6 +159,7 @@ export default async function handler(req, res) {
         title: clean(body.title, 200),
         content: clean(body.content, 50000),
         positions: clean(body.positions, 1000),
+        category: cat(body.category),
         images: [...keep, ...added],
         updatedAt: new Date().toISOString(),
       };
