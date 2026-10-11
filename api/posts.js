@@ -5,7 +5,7 @@ import { put, list, del } from '@vercel/blob';
 import crypto from 'node:crypto';
 
 const MAX_IMAGES = 6;
-const CATEGORIES = ['Macro', 'Stocks', 'Crypto', 'Personal Finance', 'Other'];
+const CATEGORIES = ['Macro', 'Stocks', 'Crypto', 'Real Estate', 'Personal Finance', 'Other'];
 const cat = (c) => (CATEGORIES.includes(c) ? c : 'Other');
 
 function passwordOk(pw) {
