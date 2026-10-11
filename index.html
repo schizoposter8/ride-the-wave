@@ -78,21 +78,36 @@ body.photo .subtitle{color:#e6f7fa}
 .page{min-height:100vh; padding-bottom:16vh; position:relative; left:calc(-1 * var(--shift))}
 .layout{position:relative; min-height:480px}
 .topics{position:absolute; right:calc(100% + 32px); top:0; width:250px; height:100%}
-.topics-toggle{position:sticky; top:20px; width:100%; display:flex; justify-content:space-between; align-items:center; gap:8px;
-  background:var(--card); color:var(--foam); border:1px solid rgba(255,255,255,.14); border-radius:14px; padding:12px 16px;
-  font:600 15px Manrope,sans-serif; cursor:pointer; backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px)}
-.topics-toggle .t-lbl{font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--sand); margin-right:4px}
-.topics-toggle .chev{transition:transform .2s; color:var(--glow)}
+.topics-toggle{position:sticky; top:20px; width:100%; display:flex; justify-content:space-between; align-items:center; gap:10px;
+  background:linear-gradient(135deg,#7fd3e6 0%,#4fb8cf 55%,#2e9bb8 100%); color:#042433; border:0; border-radius:16px; padding:14px 16px 14px 18px;
+  font:700 16px Manrope,sans-serif; cursor:pointer; text-align:left;
+  box-shadow:0 12px 30px -10px rgba(10,80,110,.65),inset 0 1px 0 rgba(255,255,255,.5); animation:beckon 2.4s ease-in-out 3}
+.topics-toggle:hover{filter:brightness(1.06)}
+@keyframes beckon{0%,100%{box-shadow:0 12px 30px -10px rgba(10,80,110,.65),0 0 0 0 rgba(127,211,230,.7),inset 0 1px 0 rgba(255,255,255,.5)}
+  50%{box-shadow:0 12px 30px -10px rgba(10,80,110,.65),0 0 0 10px rgba(127,211,230,0),inset 0 1px 0 rgba(255,255,255,.5)}}
+.topics-toggle .t-main{display:flex; flex-direction:column; line-height:1.2}
+.topics-toggle .t-lbl{display:flex; align-items:center; gap:8px; font-size:17px; letter-spacing:.01em}
+.topics-toggle .t-cur{font-weight:500; font-size:13px; color:#0b4a5e; margin-top:2px}
+.topics-toggle .chev{flex:none; width:30px; height:30px; border-radius:50%; background:rgba(4,36,51,.16); display:grid; place-items:center;
+  font-size:14px; transition:transform .25s}
 .topics.closed .chev{transform:rotate(-90deg)}
-.topics-list{position:sticky; top:72px; list-style:none; margin:8px 0 0; padding:6px; background:var(--card); border:1px solid rgba(255,255,255,.14);
-  border-radius:14px; backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px)}
+.topics-list{position:sticky; top:92px; list-style:none; margin:10px 0 0; padding:10px; background:rgba(7,34,52,.88); border:1px solid rgba(127,211,230,.22);
+  border-radius:16px; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); box-shadow:0 20px 40px -18px rgba(0,0,0,.6)}
 .topics.closed .topics-list{display:none}
-.topics-list button{width:100%; display:flex; justify-content:space-between; align-items:center; background:none; border:0; color:var(--mist);
-  font:500 15px Manrope,sans-serif; padding:10px 12px; border-radius:9px; cursor:pointer; text-align:left}
-.topics-list button:hover{background:rgba(127,211,230,.08); color:var(--foam)}
-.topics-list button.on{background:rgba(127,211,230,.16); color:var(--foam); font-weight:700}
-.topics-list .sep{height:1px; background:rgba(255,255,255,.1); margin:4px 8px}
-.topics-list .n{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--dim)}
+.topics-list .sec{font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--sand); padding:6px 10px 6px}
+.topics-list .sec:not(:first-child){margin-top:8px; padding-top:12px; border-top:1px solid rgba(255,255,255,.08)}
+.topics-list button{position:relative; width:100%; display:flex; align-items:center; gap:12px; background:none; border:0; color:#c9dbe3;
+  font:600 15px Manrope,sans-serif; padding:8px 10px; border-radius:11px; cursor:pointer; text-align:left; transition:background .15s,color .15s,transform .15s}
+.topics-list button:hover{background:rgba(127,211,230,.1); color:#fff; transform:translateX(3px)}
+.topics-list .ic{flex:none; width:32px; height:32px; border-radius:10px; display:grid; place-items:center; font-size:16px; background:rgba(255,255,255,.07)}
+.topics-list .lb{flex:1}
+.topics-list .n{font-family:'JetBrains Mono',monospace; font-size:11.5px; min-width:26px; text-align:center; padding:2px 7px; border-radius:999px;
+  background:rgba(255,255,255,.07); color:var(--mist)}
+.topics-list button.on{background:linear-gradient(90deg,rgba(127,211,230,.24),rgba(127,211,230,.08)); color:#fff}
+.topics-list button.on::before{content:""; position:absolute; left:-10px; top:8px; bottom:8px; width:4px; border-radius:0 4px 4px 0; background:var(--glow)}
+.topics-list button.on .ic{background:var(--glow)}
+.topics-list button.on .n{background:var(--glow); color:#03202b; font-weight:700}
+@media (prefers-reduced-motion:reduce){.topics-toggle{animation:none}}
 .tag{display:inline-block; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.12em; text-transform:uppercase;
   color:var(--glow); border:1px solid rgba(127,211,230,.35); border-radius:999px; padding:2px 10px; margin-right:10px; cursor:pointer; background:none}
 .tag:hover{background:rgba(127,211,230,.12)}
@@ -246,7 +261,7 @@ textarea.in{min-height:240px; resize:vertical; line-height:1.6}
   <div class="layout">
     <aside class="topics" id="topics">
       <button class="topics-toggle" id="topicsToggle" aria-expanded="true">
-        <span><span class="t-lbl">Topics</span> <span id="topicCurrent">All</span></span><span class="chev">▾</span>
+        <span class="t-main"><span class="t-lbl">🧭 Browse Topics</span><span class="t-cur">Showing: <b id="topicCurrent">All</b></span></span><span class="chev">▼</span>
       </button>
       <ul class="topics-list" id="topicsList"></ul>
     </aside>
@@ -377,9 +392,11 @@ try{ const h=new URLSearchParams(location.search).get('topic'); if(VIEWS.include
 const catOf=p=>TOPICS.includes(p.category)&&p.category!=='All'?p.category:'Other';
 function renderTopics(){
   $('#topicCurrent').textContent=topic;
-  $('#topicsList').innerHTML=`<li><button data-topic="Overview" class="${topic==='Overview'?'on':''}">Overview<span class="n">ⓘ</span></button></li><li class="sep"></li>`+TOPICS.map(t=>{
+  const IC={'Overview':'🧭','All':'🌊','Macro':'🏛️','Stocks':'📈','Crypto':'🪙','Real Estate':'🏠','Personal Finance':'💰','Other':'🐚'};
+  const row=(t,n)=>`<li><button data-topic="${t}" class="${t===topic?'on':''}"><span class="ic">${IC[t]||'•'}</span><span class="lb">${t}</span>${n===null?'':`<span class="n">${n}</span>`}</button></li>`;
+  $('#topicsList').innerHTML=`<li class="sec">Start here</li>`+row('Overview',null)+`<li class="sec">Categories</li>`+TOPICS.map(t=>{
     const n=t==='All'?posts.length:posts.filter(p=>catOf(p)===t).length;
-    return `<li><button data-topic="${t}" class="${t===topic?'on':''}">${t}<span class="n">${n}</span></button></li>`;
+    return row(t,n);
   }).join('');
 }
 function setTopic(t){
