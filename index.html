@@ -101,7 +101,7 @@ body.photo .subtitle{color:#e6f7fa}
   .topics-list{position:absolute; left:0; right:0; top:100%; z-index:4; background:#0a2034; box-shadow:0 20px 40px -10px rgba(0,0,0,.5)}
 }
 /* ---------- posts ---------- */
-.feed{display:flex; flex-direction:column; gap:28px; padding-bottom:40px}
+.feed{display:flex; flex-direction:column; gap:28px; padding-bottom:40px; margin-right:calc(-1 * clamp(0px, (100vw - 800px) / 2, 192px))}
 .post{background:var(--card); border:1px solid rgba(255,255,255,.12); border-radius:18px; padding:30px 32px 24px;
   backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); box-shadow:0 24px 50px -28px rgba(4,30,45,.7);
   scroll-margin-top:24px}
@@ -297,6 +297,7 @@ textarea.in{min-height:240px; resize:vertical; line-height:1.6}
       <label><input type="radio" name="cat" value="Macro"><span>Macro</span></label>
       <label><input type="radio" name="cat" value="Stocks"><span>Stocks</span></label>
       <label><input type="radio" name="cat" value="Crypto"><span>Crypto</span></label>
+      <label><input type="radio" name="cat" value="Real Estate"><span>Real Estate</span></label>
       <label><input type="radio" name="cat" value="Personal Finance"><span>Personal Finance</span></label>
       <label><input type="radio" name="cat" value="Other" checked><span>Other</span></label>
     </div>
@@ -362,7 +363,7 @@ async function api(method, body){
   return data;
 }
 
-const TOPICS=['All','Macro','Stocks','Crypto','Personal Finance','Other'];
+const TOPICS=['All','Macro','Stocks','Crypto','Real Estate','Personal Finance','Other'];
 const VIEWS=['Overview',...TOPICS];
 let about=null;
 let topic='All';
@@ -397,7 +398,6 @@ function renderOverview(){
       <div class="post-meta"><span><span class="tag" style="cursor:default">Overview</span></span></div>
       <h2>About Ride the Market Wave</h2>
       <div class="post-body">${md(text)}</div>
-      <div class="post-disc">${PER_POST_DISCLOSURE}</div>
       <div class="admin-row"><button class="btn small" id="editAbout">Edit overview</button></div>
     </article>`;
 }
@@ -423,7 +423,6 @@ function render(){
       <div class="post-body">${md(p.content)}</div>
       ${p.images&&p.images.length?`<div class="gallery ${p.images.length===1?'single':''}">${p.images.map(u=>`<img src="${esc(u)}" alt="Chart for ${esc(p.title||'post')}" loading="lazy">`).join('')}</div>`:''}
       ${p.positions?`<div class="positions"><span class="lbl">Positions held at time of writing</span>${esc(p.positions)}</div>`:''}
-      <div class="post-disc">${PER_POST_DISCLOSURE}</div>
       <div class="admin-row">
         <button class="btn small" data-edit="${esc(p.id)}">Edit</button>
         <button class="btn small danger" data-del="${esc(p.id)}">Delete</button>
