@@ -50,6 +50,7 @@ body.photo .photo-bg{opacity:1}
   background:linear-gradient(180deg,rgba(4,30,45,.38) 0%,rgba(4,30,45,.08) 40%,rgba(4,30,45,.1) 100%)}
 body.photo .sun, body.photo .gull, body.photo .pipeline{display:none}
 body.photo h1.title, body.photo .byline strong{color:#fff}
+.byline .cfp{font-weight:600; letter-spacing:.02em}
 body.photo h1.title em{color:#9eeaf2}
 body.photo .eyebrow{color:#cdf4f7}
 body.photo .byline{color:#e3f3f6}
@@ -69,11 +70,14 @@ h1.title em{font-style:italic; font-weight:300; color:#0f86a1}
 
 .subtitle{font-family:Fraunces,serif; font-style:italic; font-weight:300; font-size:clamp(22px,4vw,32px); color:#0e5f74; margin:-.1em 0 .55em}
 body.photo .subtitle{color:#e6f7fa}
-:root{--shift:0px}
+:root{--shift:0px; --ext:clamp(0px, (100vw - 760px) / 2 - 24px, 288px)}
 @media (min-width:1421px){:root{
   --old:clamp(0px, (100vw - 760px) / 2 - 306px, 144px);
   --blank:calc((100vw - 760px) / 2 + 20px - var(--old) - 282px);
   --shift:calc(var(--old) + max(0px, min(var(--blank) / 2, var(--blank) - 24px)));
+  --ext0:clamp(0px, (100vw - 760px) / 2 + var(--shift) - 24px, 288px);
+  --rb:calc(100vw - ((100vw - 760px) / 2 + 20px - var(--shift)) - 720px - var(--ext0));
+  --ext:calc(var(--ext0) + max(0px, var(--rb) / 3));
 }}
 .page{min-height:100vh; padding-bottom:16vh; position:relative; left:calc(-1 * var(--shift))}
 .layout{position:relative; min-height:480px}
@@ -122,7 +126,7 @@ body.photo .subtitle{color:#e6f7fa}
   .topics-list{position:absolute; left:0; right:0; top:100%; z-index:4; background:#0a2034; box-shadow:0 20px 40px -10px rgba(0,0,0,.5)}
 }
 /* ---------- posts ---------- */
-.feed{display:flex; flex-direction:column; gap:28px; padding-bottom:40px; margin-right:calc(-1 * clamp(0px, (100vw - 760px) / 2 + var(--shift) - 24px, 288px))}
+.feed{display:flex; flex-direction:column; gap:28px; padding-bottom:40px; margin-right:calc(-1 * var(--ext))}
 .post{background:var(--card); border:1px solid rgba(255,255,255,.12); border-radius:18px; padding:30px 32px 24px;
   backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); box-shadow:0 24px 50px -28px rgba(4,30,45,.7);
   scroll-margin-top:24px}
@@ -255,13 +259,13 @@ textarea.in{min-height:240px; resize:vertical; line-height:1.6}
   <header class="hero">
     <div class="eyebrow">Market Thoughts</div>
     <h1 class="title">Ride the Market <em>Wave</em></h1>
-    <div class="byline"><strong>Brock Hall, CFP®</strong></div>
+    <div class="byline"><strong>Brock Hall, CFP®</strong><span class="dot"></span><span class="cfp">CERTIFIED FINANCIAL PLANNER® professional</span></div>
   </header>
 
   <div class="layout">
     <aside class="topics" id="topics">
       <button class="topics-toggle" id="topicsToggle" aria-expanded="true">
-        <span class="t-main"><span class="t-lbl">🧭 Browse Topics</span><span class="t-cur">Showing: <b id="topicCurrent">All</b></span></span><span class="chev">▼</span>
+        <span class="t-main"><span class="t-lbl">Browse Topics</span><span class="t-cur">Showing: <b id="topicCurrent">All</b></span></span><span class="chev">▼</span>
       </button>
       <ul class="topics-list" id="topicsList"></ul>
     </aside>
@@ -272,7 +276,7 @@ textarea.in{min-height:240px; resize:vertical; line-height:1.6}
 <footer>
   <div class="wrap">
     <h3>Important Disclosures</h3>
-    <p>Brock Hall is a CERTIFIED FINANCIAL PLANNER™ professional. Everything published on this website reflects his own personal opinions only. These views do not represent the views, opinions, or positions of his employer or any firm or organization with which he is or has been affiliated, and have not been reviewed or endorsed by any of them.</p>
+    <p>Brock Hall is a CERTIFIED FINANCIAL PLANNER® professional. Everything published on this website reflects his own personal opinions only. These views do not represent the views, opinions, or positions of his employer or any firm or organization with which he is or has been affiliated, and have not been reviewed or endorsed by any of them.</p>
     <p>All content is provided for general informational and educational purposes only. Nothing on this site is investment, financial, tax, legal, or accounting advice, nor is it a recommendation, offer, or solicitation to buy, sell, or hold any security, digital asset, or other investment, or to adopt any investment strategy. Content does not consider your individual objectives, financial situation, or needs. Reading this site does not create an advisor-client or any other professional relationship.</p>
     <p>Investing involves risk, including the possible loss of principal. Past performance does not guarantee future results. Cryptocurrencies and other digital assets are highly speculative and volatile and may lose all value. Any forecasts, projections, or opinions are inherently uncertain, may prove incorrect, and may change without notice. Information is obtained from sources believed to be reliable but its accuracy and completeness are not guaranteed.</p>
     <p>The author may hold, buy, or sell positions in any securities or assets discussed, before or after publication, without notice. Positions noted in a post reflect holdings at the time of writing only. Always do your own research and consult a qualified professional about your specific situation before making any financial decision.</p>
@@ -392,7 +396,7 @@ try{ const h=new URLSearchParams(location.search).get('topic'); if(VIEWS.include
 const catOf=p=>TOPICS.includes(p.category)&&p.category!=='All'?p.category:'Other';
 function renderTopics(){
   $('#topicCurrent').textContent=topic;
-  const IC={'Overview':'🧭','All':'🌊','Macro':'🏛️','Stocks':'📈','Crypto':'🪙','Real Estate':'🏠','Personal Finance':'💰','Other':'🐚'};
+  const IC={'Overview':'<b style="font:700 15px Fraunces,serif;font-style:italic">i</b>','All':'🌊','Macro':'🏛️','Stocks':'📈','Crypto':'🪙','Real Estate':'🏠','Personal Finance':'💰','Other':'🐚'};
   const row=(t,n)=>`<li><button data-topic="${t}" class="${t===topic?'on':''}"><span class="ic">${IC[t]||'•'}</span><span class="lb">${t}</span>${n===null?'':`<span class="n">${n}</span>`}</button></li>`;
   $('#topicsList').innerHTML=`<li class="sec">Start here</li>`+row('Overview',null)+`<li class="sec">Categories</li>`+TOPICS.map(t=>{
     const n=t==='All'?posts.length:posts.filter(p=>catOf(p)===t).length;
@@ -412,7 +416,7 @@ document.addEventListener('click',e=>{ if(matchMedia('(max-width:1420px)').match
 
 const DEFAULT_ABOUT = `Welcome to **Ride the Market Wave**. This is where I share my personal thoughts on the market's ups and downs: macro, stocks, crypto, and whatever else is moving.
 
-I'm Brock Hall, a CERTIFIED FINANCIAL PLANNER™ professional. Everything here is my own opinion, written for fun and to think out loud. It isn't advice, and it isn't the view of my employer.
+I'm Brock Hall, a CERTIFIED FINANCIAL PLANNER® professional. Everything here is my own opinion, written for fun and to think out loud. It isn't advice, and it isn't the view of my employer.
 
 Posts are newest first. Use the Topics menu to filter by subject.`;
 function renderOverview(){
